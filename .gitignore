@@ -1,0 +1,13 @@
+# sphinx 
+docs/_build
+
+# C/C++
+*.o
+
+# Python
+*.pyc
+
+# Mac
+.DS_Store
+
+
