@@ -1,0 +1,7 @@
+# Travis CI script
+
+language: cpp
+
+script:
+    - ./autoget.sh && ./gonfigure && make && make check
+    - sudo make install
