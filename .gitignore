@@ -10,13 +10,3 @@ docs/_build
 # Mac
 .DS_Store
 
-# Autotools
-Makefile
-Makefile.in
-configure
-config
-config.status
-config.log
-aclocal.m4
-autom4te.cache
-
