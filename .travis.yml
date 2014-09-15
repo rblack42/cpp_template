@@ -2,5 +2,9 @@ language: cpp
 compiler:
     - gcc
 script:
+    - make test
+
+install:
     - make
+
 
