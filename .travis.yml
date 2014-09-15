@@ -1,13 +1,6 @@
 language: cpp
+compiler:
+    - gcc
 script:
-- ./autoget.sh && ./gonfigure && make && make check
-- sudo make install
-before_install:
-- openssl aes-256-cbc 
-    -K $encrypted_3075821fba54_key 
-    -iv $encrypted_3075821fba54_iv
-    -in config/travisci_rsa.enc 
-    -out config/travisci_rsa -d
-- chmod 0600 config/travisci_rsa
-- cp config/traviscs_rsa ~/.ssh/id_rsa
+    - make
 
