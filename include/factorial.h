@@ -1,6 +1,3 @@
-#ifndef FACTORIAL_H
-#define FACTORIAL_H
+#pragma once
 
-unsigned int Factorial( unsigned int );
-
-#endif
+unsigned int factorial( unsigned int );

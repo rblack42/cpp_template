@@ -3,6 +3,7 @@ docs/_build
 
 # C/C++
 *.o
+_obj
 
 # Python
 *.pyc
