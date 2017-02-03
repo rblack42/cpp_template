@@ -44,5 +44,6 @@ matrix:
 before_install:
   - sudo apt-get update -qq
 script:
+  - make init
   - make
   - ./test
