@@ -13,7 +13,7 @@ DOCDIR  :=  docs/
 OBJDIR  :=  _obj/
 
 CXX     := g++
-CFLAGS  := -I include -std=c++11
+CFLAGS  := -I include
 
 RM  := rm -f
 
