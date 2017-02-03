@@ -61,7 +61,9 @@ init:
 # remove all constructed files
 .PHONY: clean
 clean:
-	$(RM) $(BIN) $(TEST) $(MOBJS) $(LOBJS) $(TOBJS) $(MDEPS) $(LDEPS) $(TDEPS)
+	$(RM) $(BIN) $(TEST) \
+    $(MOBJS) $(LOBJS) $(TOBJS) \
+    $(MDEPS) $(LDEPS) $(TDEPS)
 
 # show file lists
 .PHONY: debug
