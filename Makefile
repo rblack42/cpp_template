@@ -11,21 +11,25 @@ LIBDIR  :=  lib/
 TSTDIR  :=  tests/
 DOCDIR  :=  docs/
 OBJDIR  :=  _obj/
+INCDIR  := include/
 
 CXX     := g++
-CFLAGS  := -I include
+CFLAGS  := -I $(INCDIR)
+LFLAGS  :=
 
 RM  := rm -f
 
 # get a list of the app sources and the library sources
 MSRCS   := $(wildcard $(SRCDIR)*.cpp)
 LSRCS   := $(wildcard $(LIBDIR)*.cpp)
+ISRCS   := $(wildcard $(INCDIR)*.h)
 TSRCS   := $(wildcard $(TSTDIR)*.cpp)
 
 # generate a list of all obj files to create
 MOBJS    := $(MSRCS:%.cpp=$(OBJDIR)%.o)
 LOBJS    := $(LSRCS:%.cpp=$(OBJDIR)%.o)
 TOBJS    := $(TSRCS:%.cpp=$(OBJDIR)%.o)
+
 
 # denerate a list of all dependency files to create
 LDEPS   := $(LOBJS:.o=.d)
@@ -38,7 +42,7 @@ TDEPS   := $(TOBJS:.o=.d)
 all:    $(BIN) $(TEST)
 
 $(BIN): $(MOBJS) $(LOBJS)
-	$(CXX) -o $@ $^
+	$(CXX) -o $@ $^ $(LFLAGS)
 
 $(TEST): $(TOBJS) $(LOBJS)
 	$(CXX) -o $@ $^ $(CFLAGS)
@@ -52,6 +56,7 @@ $(OBJDIR)%.o: %.cpp
 init:
 	mkdir -p $(SRCDIR)
 	mkdir -p $(LIBDIR)
+	mkdir -p $(INCDIR)
 	mkdir -p $(TSTDIR)
 	mkdir -p $(DOCDIR)
 	mkdir -p $(OBJDIR)$(SRCDIR)
@@ -70,6 +75,7 @@ clean:
 debug:
 	-@echo MSRCS = $(MSRCS)
 	-@echo LSRCS = $(LSRCS)
+	-@echo ISRCS = $(ISRCS)
 	-@echo TSRCS = $(TSRCS)
 	-@echo MOBJS = $(MOBJS)
 	-@echo TOBJS = $(TOBJS)
