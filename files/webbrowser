@@ -1,0 +1,11 @@
+#!/usr/bin/env python
+import webbrowser
+url = '../-build/html/index.html'
+
+# Mac with Chrome installed
+browser_path = 'open -a /Applications/Google\ Chrome.app %s'
+
+# Linux with firefox installed
+#browser_path = '/usr/bin/firefox'
+
+webbrowser.get(browser_path).open(url)

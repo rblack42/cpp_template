@@ -4,6 +4,7 @@ docs/_build
 # C/C++
 *.o
 _obj
+*.a
 
 # Python
 *.pyc
