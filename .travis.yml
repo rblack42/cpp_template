@@ -1,19 +1,11 @@
 # Use new trusty images, should yield newer compilers and packages
 # ref: https://github.com/genbattle/dkm.git
 sudo: required
-dist: precise
+dist: Rtrusty
 language: cpp
 
 matrix:
   include:
-    - compiler: gcc
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-4.9
-      env: COMPILER=g++-4.9
     - compiler: gcc
       addons:
         apt:
@@ -44,6 +36,7 @@ matrix:
 before_install:
   - sudo apt-get update -qq
 script:
+  - ln -s /usr/bin/gcc-5 /usr/local/bin/g++
   - make setup
   - make
   - make test
