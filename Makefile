@@ -1,13 +1,16 @@
-# Makefile for CPUsim
+# Makefile for CPUsim (Linux/Mac only)
+
+# project root directory
+PROJDIR	:= ~/cosc2325
+NAME	:= CPUsim
 
 # what to build
-USRAPP	:= cpusim
-TSTAPP	:= sim_test
-LIBAR	:= cpusim_lib.a
-TSTFILE	:= test.casm
+USRAPP	:= $(NAME)
+TSTAPP	:= $(NAME)_test
+LIBAR	:= $(NAME)_lib.a
 
-# project directories
-PROJDIR	:= ~/cosc2325
+# file for run command if needed
+TSTFILE	:= $(NAME).tst
 
 SRC		:=	src
 LIB		:=  lib
@@ -19,37 +22,44 @@ BLD		:=	_build
 DIRS 	:=	$(SRC) $(LIB) $(TST) $(DOC) $(INC) \
 		$(BLD) $(BLD)/$(SRC) $(BLD)/$(LIB) $(BLD)/$(TST)
 
+# generate list of source files
 USRCS = $(wildcard $(SRC)/*.cpp)
 LSRCS = $(wildcard $(LIB)/*.cpp)
 TSRCS = $(wildcard $(TST)/*.cpp)
 
+# generate list of object files to build
 UOBJS = $(USRCS:%.cpp=$(BLD)/%.o)
 LOBJS = $(LSRCS:%.cpp=$(BLD)/%.o)
 TOBJS = $(TSRCS:%.cpp=$(BLD)/%.o)
 OBJS  = $(UOBJS) $(LOBJS) $(TOBJS)
 
-# generate a list of dependencies
+# auto generate list of dependencies
 UDEPS	:= $(UOBJS:.o=.d)
 LDEPS	:= $(LOBJS:.o=.d)
 TDEPS	:= $(TOBJS:.o=.d)
 DEPS	:= $(UDEPS) $(LDEPS) $(TDEPS)
 
-# tools
+# build tools
 CXX	:= g++
 AR	:= ar
 RM	:= rm -f
 PIP	:= pip
-SPHINX	:= _venv/bin/sphinx-build
-VENV	:= python3 -m venv
+PY	:= python3
 
+# documentation tools (needs Python3)
+SPHINX	:= _venv/bin/sphinx-build
+VENV	:= $(PY) -m venv
+
+# build flags
 CFLAGS	:= -std=c++11 -I $(INC)
 LFLAGS	:= -L $(LIB) $(LIBAR)
 
-# targets follow ----------------------
+# targets follow ----------------------------
 
 .PHONY: all
-# target: all - build directories, app and test-app
+# target: all - build dirs, app and test-app
 all:	setup $(USRAPP) $(TSTAPP)
+
 
 .PHONY:	run
 # target: run - run application
@@ -61,6 +71,7 @@ run:	$(USRAPP) $(TSTFILE)
 test:	$(TSTAPP)
 	./$(TSTAPP)
 
+# build rules
 $(USRAPP):	$(UOBJS) $(LIBAR)
 	$(CXX) $(LFLAGS) -o $@ $^ 
 
@@ -103,9 +114,9 @@ debug:
 	-@echo DIRS  = $(DIRS)
 
 # build rules for Sphinx documentation
-.PHONY:	install
-# target: install - build sphinx documentation project
-install:	docs/_venv activate
+.PHONY:	doc_setup
+# target: doc_setup - build sphinx documentation project
+install:	docs/_venv docs_activate
 	cd docs && cp ../files/requirements.txt . && \
 	cp ../files/index.rst . && \
 	cp ../files/webbrowser _venv/bin && \
@@ -115,25 +126,25 @@ install:	docs/_venv activate
 docs/_venv:
 	$(VENV)	docs/_venv
 
-.PHONY:	activate
-activate:	docs/_venv
+.PHONY:	docs_activate
+docs_activate:	docs/_venv
 	bash docs/_venv/bin/activate
 
 .PHONY: html
 # target: html - build sphinx html files
-html:	activate
+html:	docs_activate
 	cd docs && \
 	$(SPHINX) -b html -d ../_build/doctrees . ../_build/html
 
-.PHONY: view
+.PHONY: docs_view
 # target: view - view generated HTML doc pages
 view:	activate html
 	cd docs && \
 	_venv/bin/webbrowser
 
-.PHONY: new-project
-# target: new-project - copy template to new git project
-new-project:
+.PHONY: newr_project
+# target: new_project - copy template to new git project
+new_project:
 	@read -p "Enter your project name: " ppath; \
 	mkdir -p $(PROJDIR)/$$ppath; \
 	cp -R Makefile $(PROJDIR)/$$ppath; \
